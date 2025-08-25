@@ -1,7 +1,12 @@
 # Applibit
 AI tool to help applicants apply more efficiently and with a higher degree of quality
 
- I want to create a website that helps people apply to jobs more efficiently.
+Stack
+
+Next.js
+Pythonok im 
+
+I want to create a website that helps people apply to jobs more efficiently.
 A user opens the website
 User must enter an email and verify it
 User enters username then password
