@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applibit - Create Username</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="auth-card">
+            <div class="logo">
+                <h1>Applibit</h1>
+                <p>Create tailored resumes effortlessly</p>
+            </div>
+            
+            <div class="form-section">
+                <div class="progress-indicator">
+                    <div class="progress-step completed"></div>
+                    <div class="progress-step active"></div>
+                    <div class="progress-step"></div>
+                </div>
+                
+                
+                <form class="auth-form">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            placeholder="your_username"
+                            maxlength="50"
+                            required
+                        >
+                        <div class="char-counter">
+                            <span class="current">0</span>/<span class="max">50</span>
+                        </div>
+                        <div class="input-feedback"></div>
+                    </div>
+                    
+                    <div class="username-requirements">
+                        <ul>
+                            <li>3-50 characters long</li>
+                            <li>Letters, numbers, and underscores only</li>
+                            <li>Must start with a letter</li>
+                        </ul>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                        <span>Continue</span>
+                        
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="background-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+        </div>
+    </div>
+</body>
+</html>
