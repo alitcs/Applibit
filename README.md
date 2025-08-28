@@ -4,7 +4,7 @@ AI tool to help applicants apply more efficiently and with a higher degree of qu
 Stack
 
 Next.js
-Pythonok im 
+Python
 
 I want to create a website that helps people apply to jobs more efficiently.
 A user opens the website

@@ -1,271 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Applibit - Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
-</head>
-<body class="dashboard-body">
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body class="dashboard-body">
     <header class="main-header">
-        <div class="header-content">
-            <div class="logo-small">
-                <h2>Applibit</h2>
-            </div>
-            <div class="user-menu">
-                <div class="user-avatar">U</div>
-                <span class="username">john_doe</span>
-                <button class="menu-toggle">⋮</button>
-            </div>
+      <div class="header-content">
+        <div class="logo-small">
+          <h2>Applibit</h2>
         </div>
+        <div class="user-menu">
+          <div class="user-avatar">U</div>
+          <span class="username">john_doe</span>
+          <button class="menu-toggle">⋮</button>
+        </div>
+      </div>
     </header>
 
     <main class="dashboard-main">
-        <div class="dashboard-container">
-            <!-- Left Column: Resume Builder -->
-            <div class="resume-builder-column">
-                <!-- Personal Information Section -->
-                <section class="section-card personal-info">
-                    <div class="section-header">
-                        <h3>Personal Information</h3>
-                    </div>
-                    
-                    <div class="form-grid">
-                        <div class="input-group">
-                            <label for="fullname">Full Name *</label>
-                            <input type="text" id="fullname" maxlength="100" placeholder="John Doe">
-                            <div class="char-counter"><span class="current">0</span>/<span class="max">100</span></div>
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="phone">Phone Number *</label>
-                            <input type="tel" id="phone" placeholder="+1 (555) 123-4567">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="email-display">Email *</label>
-                            <input type="email" id="email-display" placeholder="john.doe@example.com">
-                        </div>
-                        
-                        <div class="input-group">
-                            <label for="linkedin">LinkedIn</label>
-                            <input type="url" id="linkedin" maxlength="100" placeholder="linkedin.com/in/johndoe">
-                            <div class="char-counter"><span class="current">0</span>/<span class="max">100</span></div>
-                        </div>
-                        
-                        <div class="input-group span-2">
-                            <label for="github">GitHub</label>
-                            <input type="url" id="github" maxlength="100" placeholder="github.com/johndoe">
-                            <div class="char-counter"><span class="current">0</span>/<span class="max">100</span></div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Resume Sections -->
-                <section class="resume-sections">
-
-                    <!-- Dynamic Resume Sections Container -->
-                    <div class="resume-sections-container">
-                        <!-- Summary Section Example -->
-                        <div class="section-card resume-section" data-type="summary">
-                            <div class="section-header">
-                                <div class="section-title">
-                                    
-                                    <h4>Summary of Qualifications</h4>
-                                </div>
-                                <div class="section-controls">
-                                    <label class="must-include">
-                                        <input type="checkbox" class="must-include-checkbox">
-                                        <span class="checkmark"></span>
-                                        Must Include
-                                    </label>
-                                    <button class="remove-section">×</button>
-                                </div>
-                            </div>
-                            
-                            <div class="bullet-points">
-                                <div class="bullet-point">
-                                    <textarea 
-                                        placeholder="Describe your key qualification..."
-                                        maxlength="300"
-                                        rows="2"
-                                    ></textarea>
-                                    <div class="char-counter"><span class="current">0</span>/<span class="max">300</span></div>
-                                    <button class="remove-bullet">×</button>
-                                    <div class="bullet-limit">1-7 bullet points</div>
-                                </div>
-                            </div>
-                            
-                            <button class="add-bullet-btn">
-                                <span class="plus-icon">+</span>
-                                
-                            </button>
-                        </div>
-
-                        <!-- Experience Section Example -->
-                        <div class="section-card resume-section" data-type="experience">
-                            <div class="section-header">
-                                <div class="section-title">
-                                
-                                    <h4>Experience</h4>
-                                </div>
-                                <div class="section-controls">
-                                    <label class="must-include">
-                                        <input type="checkbox" class="must-include-checkbox">
-                                        <span class="checkmark"></span>
-                                        Must Include
-                                    </label>
-                                    <button class="remove-section">×</button>
-                                </div>
-                            </div>
-                            
-                            <div class="experience-fields">
-                                <div class="input-group">
-                                    <label>Workplace Name *</label>
-                                    <input type="text" maxlength="100" placeholder="Company Name">
-                                    <div class="char-counter"><span class="current">0</span>/<span class="max">100</span></div>
-                                </div>
-                                
-                                <div class="input-group">
-                                    <label>Job Title *</label>
-                                    <input type="text" maxlength="100" placeholder="Software Engineer">
-                                    <div class="char-counter"><span class="current">0</span>/<span class="max">100</span></div>
-                                </div>
-                                
-                                <div class="input-group">
-                                    <label>Date *</label>
-                                    <input type="text" maxlength="50" placeholder="January 2023 - Present">
-                                    <div class="char-counter"><span class="current">0</span>/<span class="max">50</span></div>
-                                </div>
-                            </div>
-                            
-                            <div class="bullet-points">
-                                <div class="bullet-point">
-                                    <textarea 
-                                        placeholder="Describe your achievement or responsibility..."
-                                        maxlength="300"
-                                        rows="2"
-                                    ></textarea>
-                                    <div class="char-counter"><span class="current">0</span>/<span class="max">300</span></div>
-                                    <button class="remove-bullet">×</button>
-                                    <div class="bullet-limit">1-7 bullet points</div>
-                                </div>
-                            </div>
-                            
-                            <button class="add-bullet-btn">
-                                <span class="plus-icon">+</span>
-                            </button>
-                        </div>
-                    </div>
-                </section>
-                                    <!-- Add Section Menu -->
-                    <span class="plus-icon-section add-section-btn">+</span>
-                    <div class="add-section-menu">
-                        <div class="menu-item" data-section="summary">
-                            
-                            <div class="menu-content">
-                                <h4>Summary</h4>
-                            
-                            </div>
-                            <span class="menu-limit">/1</span>
-                        </div>
-                        
-                        <div class="menu-item" data-section="education">
-                           
-                            <div class="menu-content">
-                                <h4>Education</h4>
-                                
-                            </div>
-                            <span class="menu-limit">/3</span>
-                        </div>
-                        
-                        <div class="menu-item" data-section="projects">
-                        
-                            <div class="menu-content">
-                                <h4>Projects</h4>
-                                
-                            </div>
-                            <span class="menu-limit">/40</span>
-                        </div>
-                        
-                        <div class="menu-item" data-section="experience">
-                            <div class="menu-content">
-                                <h4>Experience</h4>
-                                
-                            </div>
-                            <span class="menu-limit">/20</span>
-                        </div>
-                        
-                        <div class="menu-item" data-section="skills">
-                            
-                            <div class="menu-content">
-                                <h4>Technical Skills</h4>
-                                
-                            </div>
-                            <span class="menu-limit">/1</span>
-                        </div>
-                        
-                        <div class="menu-item" data-section="volunteer">
-                            
-                            <div class="menu-content">
-                                <h4>Volunteer</h4>
-                                
-                            </div>
-                            <span class="menu-limit">/30</span>
-                        </div>
-                    </div>
+      <div class="dashboard-container">
+        <!-- Left Column: Resume Builder -->
+        <div class="resume-builder-column">
+          <!-- Personal Information Section -->
+          <section class="section-card personal-info">
+            <div class="section-header">
+              <h3>Personal Information</h3>
             </div>
 
+            <div class="form-grid">
+              <div class="input-group">
+                <label for="fullname">Full Name *</label>
+                <input
+                  type="text"
+                  id="fullname"
+                  maxlength="100"
+                  placeholder="John Doe"
+                />
+                <div class="char-counter">
+                  <span class="current">0</span>/<span class="max">100</span>
+                </div>
+              </div>
 
-            <!-- Right Column: Resume Generator -->
-            <div class="resume-generator-column">
-                <section class="section-card resume-generator">
-                    <div class="section-header">
-                        <h3>Generate Resume</h3>
-                    </div>
-                    
-                    <div class="generator-content">
-                        <div class="job-posting-input">
-                            <label for="job-posting">Job Posting</label>
-                            <textarea 
-                                id="job-posting" 
-                                placeholder="Paste the job description here..."
-                                rows="12"
-                            ></textarea>
-                            <div class="input-help">
-                                Paste the complete job posting to generate a tailored resume
-                            </div>
-                        </div>
-                        
-                        <div class="generation-controls">
-                            <button class="btn-primary generate-btn">
-                                <span>Generate Resume</span>
-                                
-                            </button>
-                        </div>
-                        
-                        <!-- Loading State -->
-                        <div class="loading-state hidden">
-                            <div class="loading-spinner"></div>
-                            <h4>Generating Your Resume</h4>
-                            <p>Analyzing job posting and tailoring your experience...</p>
-                        </div>
-                        
-                        <!-- Download State -->
-                        <div class="download-state hidden">
-                            <div class="download-icon">↓</div>
-                            <h4>Resume Ready!</h4>
-                            <p>Your tailored resume has been generated successfully</p>
-                            <button class="btn-secondary download-btn">
-                                <span>Download Resume</span>
-                                <div class="btn-icon">↓</div>
-                            </button>
-                        </div>
-                    </div>
-                </section>
+              <div class="input-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" placeholder="+1 (555) 123-4567" />
+              </div>
+
+              <div class="input-group">
+                <label for="email-display">Email *</label>
+                <input
+                  type="email"
+                  id="email-display"
+                  placeholder="john.doe@example.com"
+                />
+              </div>
+
+              <div class="input-group">
+                <label for="linkedin">LinkedIn</label>
+                <input
+                  type="url"
+                  id="linkedin"
+                  maxlength="100"
+                  placeholder="linkedin.com/in/johndoe"
+                />
+                <div class="char-counter">
+                  <span class="current">0</span>/<span class="max">100</span>
+                </div>
+              </div>
+
+              <div class="input-group span-2">
+                <label for="github">GitHub</label>
+                <input
+                  type="url"
+                  id="github"
+                  maxlength="100"
+                  placeholder="github.com/johndoe"
+                />
+                <div class="char-counter">
+                  <span class="current">0</span>/<span class="max">100</span>
+                </div>
+              </div>
             </div>
+          </section>
+
+          <!-- Resume Sections -->
+          <section class="resume-sections" id="resume-container">
+            <!-- Dynamic Resume Sections Container -->
+          </section>
+          <!-- Add Section Menu -->
+          <span class="plus-icon-section add-section-btn">+</span>
+          <div class="add-section-menu">
+            <div class="menu-item" data-section="summary">
+              <div class="menu-content">
+                <h4>Summary</h4>
+              </div>
+              <span class="menu-limit">/1</span>
+            </div>
+
+            <div class="menu-item" data-section="education">
+              <div class="menu-content">
+                <h4>Education</h4>
+              </div>
+              <span class="menu-limit">/3</span>
+            </div>
+
+            <div class="menu-item" data-section="project">
+              <div class="menu-content">
+                <h4>Project</h4>
+              </div>
+              <span class="menu-limit">/40</span>
+            </div>
+
+            <div class="menu-item" data-section="experience">
+              <div class="menu-content">
+                <h4>Experience</h4>
+              </div>
+              <span class="menu-limit">/20</span>
+            </div>
+
+            <div class="menu-item" data-section="skills">
+              <div class="menu-content">
+                <h4>Technical Skills</h4>
+              </div>
+              <span class="menu-limit">/1</span>
+            </div>
+
+            <div class="menu-item" data-section="volunteer">
+              <div class="menu-content">
+                <h4>Volunteer</h4>
+              </div>
+              <span class="menu-limit">/30</span>
+            </div>
+          </div>
         </div>
+
+        <!-- Right Column: Resume Generator -->
+        <div class="resume-generator-column">
+          <section class="section-card resume-generator">
+            <div class="section-header">
+              <h3>Generate Resume</h3>
+            </div>
+
+            <div class="generator-content">
+              <div class="job-posting-input">
+                <label for="job-posting">Job Posting</label>
+                <textarea
+                  id="job-posting"
+                  placeholder="Paste the job description here..."
+                  rows="12"
+                ></textarea>
+                <div class="input-help">
+                  Paste the complete job posting to generate a tailored resume
+                </div>
+              </div>
+
+              <div class="generation-controls">
+                <button class="btn-primary generate-btn">
+                  <span>Generate Resume</span>
+                </button>
+              </div>
+
+              <!-- Loading State -->
+              <div class="loading-state hidden">
+                <div class="loading-spinner"></div>
+                <h4>Generating Your Resume</h4>
+                <p>Analyzing job posting and tailoring your experience...</p>
+              </div>
+
+              <!-- Download State -->
+              <div class="download-state hidden">
+                <div class="download-icon">↓</div>
+                <h4>Resume Ready!</h4>
+                <p>Your tailored resume has been generated successfully</p>
+                <button class="btn-secondary download-btn">
+                  <span>Download Resume</span>
+                  <div class="btn-icon">↓</div>
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
     </main>
-</body>
+  </body>
 </html>
