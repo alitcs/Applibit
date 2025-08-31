@@ -130,9 +130,52 @@ p {
   padding: var(--spacing-2xl);
   width: 100%;
   max-width: 480px;
+  height: 35rem;
   box-shadow: var(--shadow-xl);
   position: relative;
   z-index: 10;
+}
+
+.sign-log {
+  display: flex;
+  flex-direction: row;
+  opacity: 1;
+  transition: all var(--transition-slow);
+}
+
+.log-in-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 2rem;
+  justify-content: center;
+}
+
+.sign-up-container {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  padding: var(--spacing-md);
+  margin-right: 2rem;
+}
+
+.log-in-container p {
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+.sign-up-container p {
+  color: var(--text-secondary);
+  text-align: left;
+}
+
+.divider {
+  width: 0.1rem;
+  height: 10rem;
+  background: var(--border-primary);
+  color: var(--border-primary);
+  z-index: 1000;
+  margin: auto;
 }
 
 .logo {
@@ -157,6 +200,11 @@ p {
 .form-section h2 {
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
+  transition: all var(--transition-slow);
+}
+
+.form-section {
+  transition: all var(--transition-slow);
 }
 
 .subtitle {
@@ -268,6 +316,37 @@ p {
   font-size: 1.2rem;
 }
 
+.btn-log {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+  color: var(--text-primary);
+  border-radius: var(--radius-xl);
+  border: none;
+  height: 3rem;
+  transition: var(--transition-normal);
+  width: 6rem;
+  margin: auto;
+  margin-bottom: 0;
+}
+
+.btn-sign {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink));
+  color: var(--text-primary);
+  border-radius: var(--radius-xl);
+  border: none;
+  height: 3rem;
+  transition: var(--transition-normal);
+  width: 6rem;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: -1rem;
+  margin-left: 1.65rem;
+}
+
+.btn-log:hover,
+.btn-sign:hover {
+  transform: scale(1.05);
+}
+
 /* Progress Indicator */
 .progress-indicator {
   display: flex;
@@ -293,31 +372,97 @@ p {
   transform: scale(1.2);
 }
 
+.profile-icon {
+  background-color: var(--bg-input);
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 2rem;
+  padding: var(--spacing-sm);
+}
+
+.profile-head {
+  background-color: var(--bg-card);
+  width: 3rem;
+  height: 3rem;
+  margin: auto;
+  margin-top: 0.5rem;
+  border-radius: var(--circle-radius-md);
+}
+
+.profile-body {
+  background-color: var(--bg-card);
+  width: 4.1rem;
+  height: 3.3rem;
+  margin: auto;
+  margin-top: 0.2rem;
+  border-radius: var(--circle-radius-xl);
+  clip-path: inset(0 0 50% 0);
+}
+
+.login-pass-user .profile-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.login-pass-user .profile-icon .profile-head {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0rem;
+}
+
+.login-pass-user .profile-icon .profile-body {
+  width: 2.1rem;
+  height: 2rem;
+}
+
+.login-pass-user .input-group {
+  margin-top: -0.1rem;
+}
+
+.login-pass-user .btn-primary {
+  width: 7rem;
+  margin-top: 0.75rem;
+}
+
 /* Requirements Lists */
 .username-requirements,
-.password-requirements {
+.password-requirements,
+.sign-up-features {
   background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
+  border: none;
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
   margin-top: var(--spacing-md);
+  margin-left: -0.75rem;
+}
+
+.sign-up-features {
+  margin-bottom: 2rem;
+  height: 12rem;
+  width: 10rem;
+  padding: var(--spacing-lg);
 }
 
 .username-requirements h4,
-.password-requirements h4 {
+.password-requirements h4,
+.sign-up-features h4 {
   color: var(--text-primary);
   font-size: 0.9rem;
   margin-bottom: var(--spacing-sm);
 }
 
 .username-requirements ul,
-.password-requirements ul {
+.password-requirements ul,
+.sign-up-features ul {
   list-style: none;
   margin: 0;
 }
 
 .username-requirements li,
-.password-requirements li {
+.password-requirements li,
+.sign-up-features li {
   color: var(--text-secondary);
   font-size: 0.85rem;
   padding: var(--spacing-xs) 0;
@@ -326,7 +471,8 @@ p {
 }
 
 .username-requirements li:before,
-.password-requirements li:before {
+.password-requirements li:before,
+.sign-up-features li:before {
   content: "•";
   color: var(--accent-purple);
   position: absolute;
@@ -1082,7 +1228,14 @@ p {
 
 /* Utility Classes */
 .hidden {
-  display: none !important;
+  display: none;
+}
+
+.fadeout {
+  opacity: 0;
+}
+.fadein {
+  opacity: 1;
 }
 
 .text-center {

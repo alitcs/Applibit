@@ -1,3 +1,4 @@
+//adding resume pieces
 const resumeContainer = document.getElementById("resume-container");
 
 const addSummary = document.querySelector('[data-section="summary"]');
@@ -321,3 +322,4 @@ addVolunteer.addEventListener("click", () => {
             </div>`
   );
 });
+//finished adding resume pieces

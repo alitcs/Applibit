@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Applibit - Email Verification</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
+    <script src="index-script.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -15,7 +15,128 @@
           <p>Create tailored resumes effortlessly</p>
         </div>
 
-        <div class="form-section">
+        <div class="sign-log">
+          <div class="sign-up-container">
+            <div class="sign-up-features">
+              <h4>Features:</h4>
+              <ul>
+                <li>Feature 1</li>
+                <li>Feature 2</li>
+                <li>Export to PDF</li>
+              </ul>
+            </div>
+            <button class="btn-sign btn-primary" id="sign-up">Sign up</button>
+          </div>
+          <div class="divider"></div>
+          <div class="log-in-container">
+            <div class="profile-icon">
+              <div class="profile-head"></div>
+              <div class="profile-body"></div>
+            </div>
+            <button class="btn-log btn-primary" id="log-in">Log in</button>
+          </div>
+        </div>
+
+        <div id="login-pass-user" class="login-pass-user hidden">
+          <div class="profile-icon">
+            <div class="profile-head"></div>
+            <div class="profile-body"></div>
+          </div>
+          <div class="input-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username-log"
+              name="username"
+              placeholder="your_username"
+              maxlength="50"
+              required
+            />
+            <div class="input-feedback"></div>
+          </div>
+          <div class="input-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password-log"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+            <div class="input-feedback"></div>
+          </div>
+          <button class="btn-log btn-primary" id="log-in">Log in</button>
+        </div>
+        <div class="sign-user hidden">
+          <form class="auth-form">
+            <div class="input-group">
+              <label for="username">Username</label>
+              <input
+                type="text"
+                id="username-sign"
+                name="username"
+                placeholder="your_username"
+                maxlength="50"
+                required
+              />
+              <div class="input-feedback"></div>
+            </div>
+
+            <div class="username-requirements" id="username-requirements">
+              <ul>
+                <li>3-50 characters long</li>
+                <li>Letters, numbers, and underscores only</li>
+                <li>Must start with a letter</li>
+              </ul>
+            </div>
+            <button type="button" class="btn-primary" id="sign-user-ctn">
+              <span>Continue</span>
+            </button>
+          </form>
+        </div>
+        <div id="sign-pass1" class="hidden">
+          <div class="input-group pass1">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password-sign"
+              name="password"
+              placeholder="Enter your password"
+              required
+            />
+            <div class="input-feedback"></div>
+          </div>
+
+          <div class="password-requirements">
+            <h4>Password requirements:</h4>
+            <ul>
+              <li class="requirement" data-rule="length">
+                At least 8 characters
+              </li>
+              <li class="requirement" data-rule="uppercase">
+                One uppercase letter
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div id="sign-pass2" class="hidden fadeout">
+          <div class="input-group pass2">
+            <label for="confirm-password">Confirm Password</label>
+            <input
+              type="password"
+              id="confirm-password"
+              name="confirm-password"
+              placeholder="Confirm your password"
+              required
+            />
+            <div class="input-feedback"></div>
+          </div>
+          <button type="button" class="btn-primary" id="sign-pass-ctn">
+            <span>Continue</span>
+          </button>
+        </div>
+
+        <div class="form-section hidden">
           <form class="auth-form">
             <div class="input-group">
               <label for="email">Email Address</label>
@@ -29,7 +150,7 @@
               <div class="input-feedback"></div>
             </div>
 
-            <button type="submit" class="btn-primary">
+            <button type="button" class="btn-primary">
               <span>Verify Email</span>
             </button>
           </form>
