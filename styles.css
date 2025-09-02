@@ -130,15 +130,19 @@ p {
   padding: var(--spacing-2xl);
   width: 100%;
   max-width: 480px;
-  height: 35rem;
+  height: 37rem;
   box-shadow: var(--shadow-xl);
   position: relative;
   z-index: 10;
 }
 
+.email-form {
+  margin-top: 8rem;
+}
+
 .sign-log {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   opacity: 1;
   transition: all var(--transition-slow);
 }
@@ -325,7 +329,9 @@ p {
   transition: var(--transition-normal);
   width: 6rem;
   margin: auto;
-  margin-bottom: 0;
+  font-size: 0.8rem;
+  font-weight: 550;
+  padding: 0;
 }
 
 .btn-sign {
@@ -337,9 +343,15 @@ p {
   transition: var(--transition-normal);
   width: 6rem;
   margin: auto;
-  margin-top: 1rem;
-  margin-bottom: -1rem;
-  margin-left: 1.65rem;
+  font-size: 0.8rem;
+  font-weight: 550;
+  padding: 0;
+}
+
+.sign-log-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
 }
 
 .btn-log:hover,
@@ -439,9 +451,9 @@ p {
 }
 
 .sign-up-features {
-  margin-bottom: 2rem;
+  margin: auto;
   height: 12rem;
-  width: 10rem;
+  width: 23rem;
   padding: var(--spacing-lg);
 }
 

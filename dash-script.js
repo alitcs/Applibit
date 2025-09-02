@@ -1,4 +1,3 @@
-//adding resume pieces
 const resumeContainer = document.getElementById("resume-container");
 
 const addSummary = document.querySelector('[data-section="summary"]');
@@ -23,7 +22,7 @@ addSummary.addEventListener("click", () => {
                                         <span class="checkmark"></span>
                                         Must Include
                                     </label>
-                                    <button class="remove-section">×</button>
+                                    <button class="remove-section" data-remove=".section-card">×</button>
                                 </div>
                             </div>
                             
@@ -60,7 +59,7 @@ addEducation.addEventListener("click", () => {
                         <span class="checkmark"></span>
                         Must Include
                     </label>
-                    <button class="remove-section">×</button>
+                    <button class="remove-section" data-remove=".section-card">×</button>
                 </div>
             </div>
 
@@ -106,7 +105,7 @@ addProject.addEventListener("click", () => {
                     <span class="checkmark"></span>
                     Must Include
                   </label>
-                  <button class="remove-section">×</button>
+                  <button class="remove-section" data-remove=".section-card">×</button>
                 </div>
               </div>
             <div class="resume-fields-container">
@@ -170,7 +169,7 @@ addExperience.addEventListener("click", () => {
                                         <span class="checkmark"></span>
                                         Must Include
                                     </label>
-                                    <button class="remove-section">×</button>
+                                    <button class="remove-section" data-remove=".section-card">×</button>
                                 </div>
                             </div>
                             
@@ -224,7 +223,7 @@ addSkills.addEventListener("click", () => {
                     <span class="checkmark"></span>
                     Must Include
                   </label>
-                  <button class="remove-section">×</button>
+                  <button class="remove-section" data-remove=".section-card">×</button>
                 </div>
               </div>
             <div class="resume-fields-container">
@@ -273,7 +272,7 @@ addVolunteer.addEventListener("click", () => {
                     <span class="checkmark"></span>
                     Must Include
                   </label>
-                  <button class="remove-section">×</button>
+                  <button class="remove-section" data-remove=".section-card">×</button>
                 </div>
               </div>
               <div class="resume-fields-container">
@@ -322,4 +321,13 @@ addVolunteer.addEventListener("click", () => {
             </div>`
   );
 });
-//finished adding resume pieces
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-remove]");
+  if (!btn) return;
+
+  const selector = btn.getAttribute("data-remove");
+  const target = btn.closest(selector);
+
+  if (target) target.remove();
+});

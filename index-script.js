@@ -1,4 +1,11 @@
 // --- elements (safe optional chaining when binding) ---
+
+import { auth } from "./auth.js";
+import {
+  onAuthStateChanged,
+  reload,
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
 const loginButton = document.getElementById("log-in");
 const signUpButton = document.getElementById("sign-up");
 
@@ -8,12 +15,21 @@ const signPass1 = document.getElementById("sign-pass1");
 const signPass2 = document.getElementById("sign-pass2");
 const logUserPass = document.getElementById("login-pass-user");
 
-const signUserCtn = document.getElementById("sign-user-ctn");
-const signPassCtn = document.getElementById("sign-pass-ctn");
+const signUserCtn = document.getElementById("username-sign");
 
 const userReq = document.getElementById("username-requirements");
 const pass1 = document.getElementById("password-sign");
 const passReq = document.querySelector(".password-requirements");
+
+const progressIndicatorWrapper = document.querySelector(".progress-indicator");
+const progressIndicator1 = document.getElementById("progress-step1");
+const progressIndicator2 = document.getElementById("progress-step2");
+const progressIndicator3 = document.getElementById("progress-step3");
+
+const confirmPass = document.getElementById("confirm-password");
+const signUpWrapper = document.querySelector(".sign-user-pass");
+
+const emailWrapper = document.querySelector(".email-verify");
 
 // prevent accidental form submit on Enter in step inputs
 document.addEventListener("keydown", (e) => {
@@ -46,14 +62,30 @@ signUpButton?.addEventListener("click", async () => {
   lock();
   await fadeOut(signLog);
   await fadeIn(signUser);
+  await fadeIn(progressIndicatorWrapper);
   unlock();
 });
 
-signUserCtn?.addEventListener("click", async () => {
-  if (isLocked()) return;
+confirmPass?.addEventListener("keydown", async (event) => {
+  if (event.key !== "Enter" || isLocked()) return;
+  event.preventDefault();
   lock();
-  if (userReq) await fadeOut(userReq); // no need to add hidden twice
-  await fadeOut(signUserCtn);
+  await fadeOut(signUpWrapper);
+  await fadeIn(emailWrapper);
+  await progressIndicator2.classList.remove("active");
+  await progressIndicator2.classList.add("completed");
+  await progressIndicator3.classList.add("active");
+  unlock();
+});
+
+signUserCtn?.addEventListener("keydown", async (event) => {
+  if (event.key !== "Enter" || isLocked()) return;
+  event.preventDefault();
+  lock();
+  await fadeOut(userReq);
+  await progressIndicator1.classList.add("completed");
+  await progressIndicator1.classList.remove("active");
+  await progressIndicator2.classList.add("active");
   await fadeIn(signPass1);
   unlock();
 });
@@ -131,3 +163,17 @@ function getOpacityDuration(el) {
   const val = durs[idx >= 0 ? idx : 0] || "0s";
   return val.endsWith("ms") ? parseFloat(val) : parseFloat(val) * 1000;
 }
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    if (!user.emailVerified) {
+      const interval = setInterval(async () => {
+        await user.reload();
+        if (user.emailVerified) {
+          clearInterval(interval);
+          window.location.href = "./dashboard.html";
+        }
+      }, 3000);
+    }
+  }
+});

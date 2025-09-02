@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Applibit - Email Verification</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="index-script.js" defer></script>
+    <script type="module" src="index-script.js" defer></script>
   </head>
   <body>
     <div class="container">
@@ -16,23 +16,16 @@
         </div>
 
         <div class="sign-log">
-          <div class="sign-up-container">
-            <div class="sign-up-features">
-              <h4>Features:</h4>
-              <ul>
-                <li>Feature 1</li>
-                <li>Feature 2</li>
-                <li>Export to PDF</li>
-              </ul>
-            </div>
-            <button class="btn-sign btn-primary" id="sign-up">Sign up</button>
+          <div class="sign-up-features">
+            <h4>Features:</h4>
+            <ul>
+              <li>Feature 1</li>
+              <li>Feature 2</li>
+              <li>Export to PDF</li>
+            </ul>
           </div>
-          <div class="divider"></div>
-          <div class="log-in-container">
-            <div class="profile-icon">
-              <div class="profile-head"></div>
-              <div class="profile-body"></div>
-            </div>
+          <div class="sign-log-buttons">
+            <button class="btn-sign btn-primary" id="sign-up">Sign up</button>
             <button class="btn-log btn-primary" id="log-in">Log in</button>
           </div>
         </div>
@@ -65,79 +58,82 @@
             />
             <div class="input-feedback"></div>
           </div>
-          <button class="btn-log btn-primary" id="log-in">Log in</button>
+          <button class="btn-log btn-primary" id="log-in-submit">Log in</button>
         </div>
-        <div class="sign-user hidden">
-          <form class="auth-form">
-            <div class="input-group">
-              <label for="username">Username</label>
+
+        <div class="progress-indicator hidden">
+          <div class="progress-step active" id="progress-step1"></div>
+          <div class="progress-step" id="progress-step2"></div>
+          <div class="progress-step" id="progress-step3"></div>
+        </div>
+
+        <div class="sign-user-pass">
+          <div class="sign-user hidden">
+            <form class="auth-form">
+              <div class="input-group">
+                <label for="username">Username</label>
+                <input
+                  type="text"
+                  id="username-sign"
+                  name="username"
+                  placeholder="your_username"
+                  maxlength="50"
+                  required
+                />
+                <div class="input-feedback"></div>
+              </div>
+
+              <div class="username-requirements" id="username-requirements">
+                <ul>
+                  <li>3-50 characters long</li>
+                  <li>Letters, numbers, and underscores only</li>
+                  <li>Must start with a letter</li>
+                </ul>
+              </div>
+            </form>
+          </div>
+          <div id="sign-pass1" class="hidden">
+            <div class="input-group pass1">
+              <label for="password">Password</label>
               <input
-                type="text"
-                id="username-sign"
-                name="username"
-                placeholder="your_username"
-                maxlength="50"
+                type="password"
+                id="password-sign"
+                name="password"
+                placeholder="Enter your password"
                 required
               />
               <div class="input-feedback"></div>
             </div>
 
-            <div class="username-requirements" id="username-requirements">
+            <div class="password-requirements">
+              <h4>Password requirements:</h4>
               <ul>
-                <li>3-50 characters long</li>
-                <li>Letters, numbers, and underscores only</li>
-                <li>Must start with a letter</li>
+                <li class="requirement" data-rule="length">
+                  At least 8 characters
+                </li>
+                <li class="requirement" data-rule="uppercase">
+                  One uppercase letter
+                </li>
               </ul>
             </div>
-            <button type="button" class="btn-primary" id="sign-user-ctn">
-              <span>Continue</span>
-            </button>
-          </form>
-        </div>
-        <div id="sign-pass1" class="hidden">
-          <div class="input-group pass1">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              id="password-sign"
-              name="password"
-              placeholder="Enter your password"
-              required
-            />
-            <div class="input-feedback"></div>
           </div>
-
-          <div class="password-requirements">
-            <h4>Password requirements:</h4>
-            <ul>
-              <li class="requirement" data-rule="length">
-                At least 8 characters
-              </li>
-              <li class="requirement" data-rule="uppercase">
-                One uppercase letter
-              </li>
-            </ul>
+          <div id="sign-pass2" class="hidden fadeout">
+            <div class="input-group pass2">
+              <label for="confirm-password">Confirm Password</label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                placeholder="Confirm your password"
+                required
+              />
+              <div class="input-feedback"></div>
+            </div>
           </div>
-        </div>
-        <div id="sign-pass2" class="hidden fadeout">
-          <div class="input-group pass2">
-            <label for="confirm-password">Confirm Password</label>
-            <input
-              type="password"
-              id="confirm-password"
-              name="confirm-password"
-              placeholder="Confirm your password"
-              required
-            />
-            <div class="input-feedback"></div>
-          </div>
-          <button type="button" class="btn-primary" id="sign-pass-ctn">
-            <span>Continue</span>
-          </button>
         </div>
 
-        <div class="form-section hidden">
-          <form class="auth-form">
+        <div class="form-section email-verify hidden">
+          <form class="auth-form email-form">
             <div class="input-group">
               <label for="email">Email Address</label>
               <input
@@ -150,7 +146,7 @@
               <div class="input-feedback"></div>
             </div>
 
-            <button type="button" class="btn-primary">
+            <button type="button" class="btn-primary" id="verify-email-btn">
               <span>Verify Email</span>
             </button>
           </form>
@@ -163,5 +159,6 @@
         <div class="floating-shape shape-3"></div>
       </div>
     </div>
+    <script type="module" src="auth.js"></script>
   </body>
 </html>
