@@ -3,7 +3,6 @@ import {
   reload,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import { app, auth, db, firebaseConfig } from "./firebase.js";
-
 const loginButton = document.getElementById("log-in");
 const signUpButton = document.getElementById("sign-up");
 

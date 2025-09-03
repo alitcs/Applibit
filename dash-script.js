@@ -1,3 +1,9 @@
+import {
+  onSnapshot,
+  doc,
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+import { auth, db } from "./firebase.js";
 const resumeContainer = document.getElementById("resume-container");
 
 const addSummary = document.querySelector('[data-section="summary"]');
@@ -6,6 +12,77 @@ const addProject = document.querySelector('[data-section="project"]');
 const addExperience = document.querySelector('[data-section="experience"]');
 const addSkills = document.querySelector('[data-section="skills"]');
 const addVolunteer = document.querySelector('[data-section="volunteer"]');
+
+const $avatar = document.getElementById("avatar");
+const $username = document.querySelector(".username");
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    renderAvatar({ letter: "?", seed: "guest" });
+    return;
+  }
+  const ref = doc(db, "users", user.uid);
+  const stop = onSnapshot(ref, (snap) => {
+    const d = snap.data() || {};
+    const name = (d.username || user.displayName || user.email || "").trim();
+    const letter = firstLetter(name);
+    $username.textContent = name || user.displayName || "User";
+    renderAvatar({ letter, seed: name || user.uid });
+  });
+  window.addEventListener("beforeunload", () => stop());
+});
+
+function firstLetter(name) {
+  if (!name) return "?";
+  const ch = [...name].find((c) => /\p{L}|\p{N}/u.test(c)) || name[0];
+  return ch.toUpperCase();
+}
+
+function renderAvatar({ letter, seed }) {
+  if (!$avatar) return;
+
+  $avatar.textContent = letter || "?";
+  $avatar.style.backgroundColor = pickColor(seed);
+}
+
+function pickColor(seed = "") {
+  const palette = [
+    "#6366F1",
+    "#10B981",
+    "#F59E0B",
+    "#EF4444",
+    "#3B82F6",
+    "#8B5CF6",
+    "#14B8A6",
+    "#F97316",
+  ];
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    return palette[h % palette.length];
+  }
+}
+
+document.addEventListener("click", (e) => {
+  const button = e.target.closest(".add-bullet-btn");
+  if (!button) return;
+
+  const section = button.closest(".resume-section");
+  const bulletPointContainer = section?.querySelector(".bullet-points");
+  if (!bulletPointContainer) return;
+
+  bulletPointContainer.insertAdjacentHTML(
+    "beforeend",
+    `<div class="bullet-point">
+                                    <textarea 
+                                        placeholder="Describe your key qualification..."
+                                        maxlength="300"
+                                        rows="2"
+                                    ></textarea>
+                                    <button class="remove-bullet" data-remove=".bullet-point" type="button">×</button>
+                                </div>`
+  );
+});
 
 addSummary.addEventListener("click", () => {
   resumeContainer.insertAdjacentHTML(
@@ -33,8 +110,8 @@ addSummary.addEventListener("click", () => {
                                         maxlength="300"
                                         rows="2"
                                     ></textarea>
-                                    <button class="remove-bullet">×</button>
-                                    <div class="bullet-limit">1-7 bullet points</div>
+                                    <button class="remove-bullet" data-remove=".bullet-point" type="button">×</button>
+                                  
                                 </div>
                             </div>
                             
@@ -144,10 +221,10 @@ addProject.addEventListener("click", () => {
                                         maxlength="300"
                                         rows="2"
                                     ></textarea>
-                                    <button class="remove-bullet">×</button>
+                                    <button class="remove-bullet" data-remove=".bullet-point"type="button">×</button>
                                 </div>
                             </div>
-                            <div class="bullet-limit">1-7 bullet points</div>
+                          
                             <button class="add-bullet-btn">
                                 <span class="plus-icon">+</span>
                             </button>
@@ -197,10 +274,10 @@ addExperience.addEventListener("click", () => {
                                         maxlength="300"
                                         rows="2"
                                     ></textarea>
-                                    <button class="remove-bullet">×</button>
+                                    <button class="remove-bullet" data-remove=".bullet-point" type="button">×</button>
                                 </div>
                             </div>
-                            <div class="bullet-limit">1-7 bullet points</div>
+                          
                             <button class="add-bullet-btn">
                                 <span class="plus-icon">+</span>
                             </button>
@@ -311,10 +388,10 @@ addVolunteer.addEventListener("click", () => {
                     maxlength="300"
                     rows="2"
                   ></textarea>
-                  <button class="remove-bullet">×</button>
+                  <button class="remove-bullet"  data-remove=".bullet-point" type="button">×</button>
                 </div>
               </div>
-              <div class="bullet-limit">1-7 bullet points</div>
+    
               <button class="add-bullet-btn">
                 <span class="plus-icon">+</span>
               </button>
