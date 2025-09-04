@@ -2,7 +2,7 @@ import {
   onAuthStateChanged,
   reload,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
-import { app, auth, db, firebaseConfig } from "./firebase.js";
+import { app, auth, db, firebaseConfig } from "./myfirebase.js";
 const loginButton = document.getElementById("log-in");
 const signUpButton = document.getElementById("sign-up");
 
@@ -97,7 +97,7 @@ pass1?.addEventListener("keydown", async (event) => {
 });
 
 // --- animations ---
-function fadeOut(el, fallbackMs) {
+export function fadeOut(el, fallbackMs) {
   return new Promise((resolve) => {
     if (!el) return resolve();
 
@@ -125,7 +125,7 @@ function fadeOut(el, fallbackMs) {
   });
 }
 
-function fadeIn(el, fallbackMs) {
+export function fadeIn(el, fallbackMs) {
   return new Promise((resolve) => {
     if (!el) return resolve();
 
@@ -152,7 +152,7 @@ function fadeIn(el, fallbackMs) {
 }
 
 // parse computed transition-duration specific to opacity (ms)
-function getOpacityDuration(el) {
+export function getOpacityDuration(el) {
   const cs = getComputedStyle(el);
   const props = cs.transitionProperty.split(",").map((s) => s.trim());
   const durs = cs.transitionDuration.split(",").map((s) => s.trim());

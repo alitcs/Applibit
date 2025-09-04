@@ -3,7 +3,9 @@ import {
   doc,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
-import { auth, db } from "./firebase.js";
+import { auth, db } from "./myfirebase.js";
+import { fadeIn, fadeOut, getOpacityDuration } from "./index-script.js";
+
 const resumeContainer = document.getElementById("resume-container");
 
 const addSummary = document.querySelector('[data-section="summary"]');
@@ -15,6 +17,16 @@ const addVolunteer = document.querySelector('[data-section="volunteer"]');
 
 const $avatar = document.getElementById("avatar");
 const $username = document.querySelector(".username");
+const dashboard = document.querySelector(".menu-toggle");
+const dropDown = document.querySelector(".drop-down");
+
+dashboard.addEventListener("click", () => {
+  if (dropDown.classList.contains("hidden")) {
+    fadeIn(dropDown);
+    return;
+  }
+  fadeOut(dropDown);
+});
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {

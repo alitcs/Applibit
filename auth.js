@@ -15,7 +15,9 @@ import {
   serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
-import { app, auth, db, firebaseConfig } from "./firebase.js";
+import { app, auth, db, firebaseConfig } from "./myfirebase.js";
+
+const paymentLink = "https://buy.stripe.com/test_dRmfZg5ca75M5QUgHJg3600";
 
 //Sign Up
 const emailInput = document.getElementById("email");
