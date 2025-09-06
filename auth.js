@@ -18,6 +18,34 @@ import {
 import { app, auth, db, firebaseConfig } from "./myfirebase.js";
 
 const paymentLink = "https://buy.stripe.com/test_dRmfZg5ca75M5QUgHJg3600";
+const FN_URL =
+  "http://127.0.0.1:5001/applibit-28066/us-central1/createCheckoutSession)";
+
+async function startCheckout() {
+  const user = auth.currentUser;
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+  const idToken = await user.getIdToken();
+
+  const resp = await fetch(FN_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + idToken,
+    },
+    body: JSON.stringify({}),
+  });
+
+  const data = await resp.json();
+  if (data?.url) {
+    window.location.href = data.url;
+  } else {
+    console.error("Checkout error", data);
+    alert(data?.error || "Error starting checkout");
+  }
+}
 
 //Sign Up
 const emailInput = document.getElementById("email");
