@@ -161,16 +161,18 @@ export function getOpacityDuration(el) {
   return val.endsWith("ms") ? parseFloat(val) : parseFloat(val) * 1000;
 }
 
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    if (!user.emailVerified) {
-      const interval = setInterval(async () => {
-        await user.reload();
-        if (user.emailVerified) {
-          clearInterval(interval);
-          window.location.href = "./dashboard.html";
-        }
-      }, 3000);
-    }
-  }
-});
+//
+//onAuthStateChanged(auth, (user) => {
+//  if (user) {
+//    if (!user.emailVerified) {
+//      const interval = setInterval(async () => {
+//        await user.reload();
+//        if (user.emailVerified) {
+//          clearInterval(interval);
+//          window.location.href = "./dashboard.html";
+//        }
+//      }, 3000);
+//    }
+//  }
+//});
+//

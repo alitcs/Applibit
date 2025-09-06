@@ -17,9 +17,10 @@ import {
 
 import { app, auth, db, firebaseConfig } from "./myfirebase.js";
 
-const paymentLink = "https://buy.stripe.com/test_dRmfZg5ca75M5QUgHJg3600";
+const paymentLink =
+  "https://billing.stripe.com/p/login/test_dRmfZg5ca75M5QUgHJg3600";
 const FN_URL =
-  "http://127.0.0.1:5001/applibit-28066/us-central1/createCheckoutSession)";
+  "http://127.0.0.1:5001/applibit-28066/us-central1/createCheckoutSession";
 
 async function startCheckout() {
   const user = auth.currentUser;
@@ -99,6 +100,23 @@ confirmPassword.addEventListener("keydown", (e) => {
   }
 });
 
+export async function waitForEmailVerification({
+  intervalMs = 3000,
+  timeoutMs = 20 * 60 * 1000,
+} = {}) {
+  const start = Date.now();
+  while (Date.now() - start < timeoutMs) {
+    const user = auth.currentUser;
+    if (!user) throw new Error("Signed out while waiting for verification.");
+    await reload(user);
+    // (Optional) force refresh ID token so backend sees the claim immediately:
+    await user.getIdToken(true);
+    if (user.emailVerified) return user; // <-- resolve here
+    await new Promise((r) => setTimeout(r, intervalMs));
+  }
+  throw new Error("Email not verified (timeout).");
+}
+
 verifyEmailBtn.addEventListener("click", async () => {
   const email = emailInput?.value.trim();
   const pwd = passwordSign?.value || "";
@@ -111,19 +129,24 @@ verifyEmailBtn.addEventListener("click", async () => {
     const cred = await createUserWithEmailAndPassword(auth, email, pwd);
     if (uname) await updateProfile(cred.user, { displayName: uname });
     await sendEmailVerification(cred.user);
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) return;
-      await setDoc(
-        doc(db, "users", user.uid),
-        {
-          email: user.email,
-          username: uname,
-          createdAt: serverTimestamp(),
-        },
-        { merge: true }
-      );
-    });
+    await setDoc(
+      doc(db, "users", cred.user.uid),
+      {
+        email: cred.user.email,
+        username: uname || null,
+        createdAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
     setFeedback(emailInput, "Verification email sent. Check your inbox.");
+
+    const user = await waitForEmailVerification({ intervalMs: 3000 });
+    const startedKey = "checkoutStarted";
+
+    if (!localStorage.getItem("checkoutStarted")) {
+      localStorage.setItem("checkoutStarted", "1");
+      await startCheckout();
+    }
   } catch (err) {
     const code = err?.code;
     switch (code) {

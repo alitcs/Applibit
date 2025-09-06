@@ -1,11 +1,12 @@
 // ESM + v2 API
 import { setGlobalOptions } from "firebase-functions/v2";
 import { onRequest } from "firebase-functions/v2/https";
-import { initializeApp } from "firebase-admin/app"; // <-- modular import
 import { defineSecret } from "firebase-functions/params";
+import { getAuth as getAdminAuth } from "firebase-admin/auth";
+import Stripe from "stripe";
+import { app } from "./myfirebase.js";
 
 setGlobalOptions({ maxInstances: 10 });
-initializeApp(); // <-- works with v12 ESM
 
 export const ping = onRequest((req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -17,14 +18,11 @@ export const ping = onRequest((req, res) => {
   return res.status(200).json({ ok: true, ts: Date.now() });
 });
 
-import { getAuth as getAdminAuth } from "firebase-admin/auth";
-import Stripe from "stripe";
-
 // 1) secrets and constants
 const STRIPE_SECRET_KEY = defineSecret("STRIPE_SECRET_KEY");
 
 // put your values from earlier:
-const PRICE_ID = "YOUR_TEST_PRICE_ID"; // e.g. price_123
+const PRICE_ID = "price_1S3PtOCtKtEnJmX70OTMhYLc"; // e.g. price_123
 const SUCCESS_URL = "http://127.0.0.1:5500/dashboard.html";
 const CANCEL_URL = "http://127.0.0.1:5500/index.html";
 
