@@ -17,12 +17,16 @@ import {
 
 import { app, auth, db, firebaseConfig } from "./myfirebase.js";
 
+const URL =
+  "http://127.0.0.1:5001/applibit-28066/us-central1/createCheckoutSession";
 const paymentLink =
   "https://billing.stripe.com/p/login/test_dRmfZg5ca75M5QUgHJg3600";
 const FN_URL =
   "http://127.0.0.1:5001/applibit-28066/us-central1/createCheckoutSession";
 
 async function startCheckout() {
+  console.log("startCheckout hitting FN_URL", FN_URL);
+
   const user = auth.currentUser;
   if (!user) {
     window.location.href = "index.html";
@@ -30,13 +34,13 @@ async function startCheckout() {
   }
   const idToken = await user.getIdToken();
 
-  const resp = await fetch(FN_URL, {
+  const resp = await fetch(URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + idToken,
     },
-    body: JSON.stringify({}),
+    body: JSON.stringify({ priceId: "price_1S3PtOCtKtEnJmX70OTMhYLc" }),
   });
 
   const data = await resp.json();
@@ -139,13 +143,16 @@ verifyEmailBtn.addEventListener("click", async () => {
       { merge: true }
     );
     setFeedback(emailInput, "Verification email sent. Check your inbox.");
-
+    console.log(localStorage.getItem("checkoutStarted"));
     const user = await waitForEmailVerification({ intervalMs: 3000 });
     const startedKey = "checkoutStarted";
-
-    if (!localStorage.getItem("checkoutStarted")) {
-      localStorage.setItem("checkoutStarted", "1");
+    localStorage.setItem(startedKey, "0");
+    console.log("FN_URL: ", FN_URL);
+    console.log("verified", auth.currentUser?.emailVerified);
+    console.log(localStorage.getItem("checkoutStarted"));
+    if (localStorage.getItem("checkoutStarted") === "0") {
       await startCheckout();
+      localStorage.setItem("checkoutStarted", "1");
     }
   } catch (err) {
     const code = err?.code;
@@ -163,6 +170,7 @@ verifyEmailBtn.addEventListener("click", async () => {
         setFeedback(emailInput, err?.message || "Sign-up failed.");
     }
   } finally {
+    localStorage.setItem("checkoutStarted", "0");
     window.unlock?.();
   }
 });

@@ -3,8 +3,10 @@ import { setGlobalOptions } from "firebase-functions/v2";
 import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
 import { getAuth as getAdminAuth } from "firebase-admin/auth";
+import { initializeApp as initAdmin } from "firebase-admin/app";
 import Stripe from "stripe";
-import { app } from "./myfirebase.js";
+
+initAdmin();
 
 setGlobalOptions({ maxInstances: 10 });
 
@@ -48,7 +50,7 @@ export const createCheckoutSession = onRequest(
       return res.status(204).send("");
     }
     if (req.method !== "POST") {
-      return res.status(405).json({ error: "Method not allowed" });
+      return res.status(405).json({ error: "Method not allowed Ali" });
     }
 
     try {
