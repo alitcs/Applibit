@@ -30,9 +30,12 @@ dashboard.addEventListener("click", () => {
 
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    renderAvatar({ letter: "?", seed: "guest" });
+    window.location.href = "index.html";
     return;
   }
+
+  user.getIdToken(true);
+
   const ref = doc(db, "users", user.uid);
   const stop = onSnapshot(ref, (snap) => {
     const d = snap.data() || {};

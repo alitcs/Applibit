@@ -13,43 +13,71 @@ import {
   doc,
   setDoc,
   serverTimestamp,
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
 import { app, auth, db, firebaseConfig } from "./myfirebase.js";
 
 const URL =
-  "http://127.0.0.1:5001/applibit-28066/us-central1/createCheckoutSession";
-const paymentLink =
-  "https://billing.stripe.com/p/login/test_dRmfZg5ca75M5QUgHJg3600";
+  "https://us-central1-applibit-28066.cloudfunctions.net/createCheckoutSession";
 const FN_URL =
-  "http://127.0.0.1:5001/applibit-28066/us-central1/createCheckoutSession";
+  "https://us-central1-applibit-28066.cloudfunctions.net/createCheckoutSession";
+const startedKey = "checkoutStarted";
+
+function hasStartedCheckout() {
+  return localStorage.getItem(startedKey) === "1";
+}
+function markStarted() {
+  localStorage.setItem(startedKey, "1");
+}
+function markNotStarted() {
+  localStorage.setItem(startedKey, "0");
+}
 
 async function startCheckout() {
   console.log("startCheckout hitting FN_URL", FN_URL);
-
+  console.log("checkout started? : ", hasStartedCheckout());
   const user = auth.currentUser;
   if (!user) {
+    markNotStarted();
     window.location.href = "index.html";
     return;
   }
-  const idToken = await user.getIdToken();
 
-  const resp = await fetch(URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + idToken,
-    },
-    body: JSON.stringify({ priceId: "price_1S3PtOCtKtEnJmX70OTMhYLc" }),
-  });
-
-  const data = await resp.json();
-  if (data?.url) {
-    window.location.href = data.url;
-  } else {
-    console.error("Checkout error", data);
-    alert(data?.error || "Error starting checkout");
+  if (hasStartedCheckout()) {
+    return;
   }
+
+  markStarted();
+  try {
+    const idToken = await user.getIdToken();
+
+    const resp = await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + idToken,
+      },
+      body: JSON.stringify({ priceId: "price_1S3PtOCtKtEnJmX70OTMhYLc" }),
+    });
+
+    const data = await resp.json();
+    if (data?.url) {
+      window.location.href = data.url;
+    } else {
+      console.error("Checkout error", data);
+      alert(data?.error || "Error starting checkout");
+    }
+  } catch (e) {
+    console.error("Checkout error", e);
+    alert(e?.message || "Error starting checkout");
+    markNotStarted();
+  }
+  markNotStarted();
 }
 
 //Sign Up
@@ -126,11 +154,32 @@ verifyEmailBtn.addEventListener("click", async () => {
   const pwd = passwordSign?.value || "";
   const cpwd = confirmPassword?.value || "";
   const uname = usernameSign?.value.trim();
-
+  markNotStarted();
   try {
     window.lock?.();
+    let cred;
+    try {
+      cred = await createUserWithEmailAndPassword(auth, email, pwd);
+    } catch (err) {
+      const code = err?.code;
+      if (code === "auth/email-already-in-use") {
+        const q = query(collection(db, "users"), where("email", "==", email));
+        const querySnap = await getDocs(q);
 
-    const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+        querySnap.forEach((doc) => {
+          console.log("user id: ", doc.id);
+          console.log("user data: ", doc.data().subStatus);
+          if (doc.data().subStatus === "active") {
+            window.location.href = "dashboard.html";
+          } else {
+            startCheckout();
+          }
+        });
+      } else {
+        throw err;
+      }
+    }
+
     if (uname) await updateProfile(cred.user, { displayName: uname });
     await sendEmailVerification(cred.user);
     await setDoc(
@@ -139,26 +188,21 @@ verifyEmailBtn.addEventListener("click", async () => {
         email: cred.user.email,
         username: uname || null,
         createdAt: serverTimestamp(),
+        subStatus: "unpaid",
       },
       { merge: true }
     );
     setFeedback(emailInput, "Verification email sent. Check your inbox.");
-    console.log(localStorage.getItem("checkoutStarted"));
     const user = await waitForEmailVerification({ intervalMs: 3000 });
-    const startedKey = "checkoutStarted";
-    localStorage.setItem(startedKey, "0");
-    console.log("FN_URL: ", FN_URL);
-    console.log("verified", auth.currentUser?.emailVerified);
-    console.log(localStorage.getItem("checkoutStarted"));
-    if (localStorage.getItem("checkoutStarted") === "0") {
+    if (!hasStartedCheckout()) {
       await startCheckout();
-      localStorage.setItem("checkoutStarted", "1");
     }
   } catch (err) {
     const code = err?.code;
     switch (code) {
       case "auth/email-already-in-use":
         setFeedback(emailInput, "Email already in use");
+        window.location.href = "dashboard.html";
         break;
       case "auth/invalid-email":
         setFeedback(emailInput, "Invalid email format.");
@@ -170,7 +214,6 @@ verifyEmailBtn.addEventListener("click", async () => {
         setFeedback(emailInput, err?.message || "Sign-up failed.");
     }
   } finally {
-    localStorage.setItem("checkoutStarted", "0");
     window.unlock?.();
   }
 });
@@ -180,9 +223,26 @@ async function myLogin(auth, loginEmailInput, loginPassword) {
   const password = loginPassword?.value || "";
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
-    window.location.href = "dashboard.html";
+
+    const snap = await getDoc(doc(db, "users", user.uid));
+
+    if (!snap.exists()) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    const { subStatus } = snap.data();
+
+    if (subStatus === "active") {
+      window.location.href = "dashboard.html";
+    } else {
+      console.log("starting checkout");
+      await startCheckout();
+      console.log("checkout done");
+    }
   } catch (e) {
     const code = e?.code;
+    console.log("login error", e);
     switch (code) {
       case "auth/invalid-email":
         setFeedback(loginEmailInput, "Invalid email format");
